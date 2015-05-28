@@ -19,8 +19,9 @@ function net = glminit(net, prior)
 
 %	Copyright (c) Ian T Nabney (1996-2001)
 
-if ~strcmp(net.type, 'glm')
-  error('Model type should be ''glm'');
+errstring = consist(net, 'glm');
+if ~isempty(errstring);
+  error(errstring);
 end
 if isstruct(prior)
   sig = 1./sqrt(prior.index*prior.alpha);

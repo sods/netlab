@@ -25,19 +25,19 @@ function net = gp(nin, covar_fn, prior)
 %	  trtargets = training target data (initially empty)
 %
 %	NET = GP(NIN, COVARFN, PRIOR) sets a Gaussian prior on the parameters
-%	of the model. PRIOR must contain the fields PRMEAN and PRVARIANCE.
-%	If PRMEAN is a scalar, then the Gaussian is assumed to be isotropic
-%	and the additional fields NET.PRMEAN and PRVARIANCE are set.
+%	of the model. PRIOR must contain the fields PR_MEAN and PR_VARIANCE.
+%	If PR_MEAN is a scalar, then the Gaussian is assumed to be isotropic
+%	and the additional fields NET.PR_MEAN and PR_VARIANCE are set.
 %	Otherwise,  the Gaussian prior has a mean defined by a column vector
-%	of parameters PRIOR.PRMEAN and covariance defined by a column vector
-%	of parameters PRIOR.PRVARIANCE. Each element of PRMEAN corresponds to
-%	a separate group of parameters, which need not be mutually exclusive.
-%	The membership of the groups is defined by the matrix PRIOR.INDEX in
-%	which the columns correspond to the elements of PRMEAN. Each column
-%	has one element for each weight in the matrix, in the order defined
-%	by the function GPPAK, and each element is 1 or 0 according to
-%	whether the parameter is a member of the corresponding group or not.
-%	The additional field NET.INDEX is set in this case.
+%	of parameters PRIOR.PR_MEAN and covariance defined by a column vector
+%	of parameters PRIOR.PR_VARIANCE. Each element of PRMEAN corresponds
+%	to a separate group of parameters, which need not be mutually
+%	exclusive. The membership of the groups is defined by the matrix
+%	PRIOR.INDEX in which the columns correspond to the elements of
+%	PRMEAN. Each column has one element for each weight in the matrix, in
+%	the order defined by the function GPPAK, and each element is 1 or 0
+%	according to whether the parameter is a member of the corresponding
+%	group or not.  The additional field NET.INDEX is set in this case.
 %
 %	See also
 %	GPPAK, GPUNPAK, GPFWD, GPERR, GPCOVAR, GPGRAD

@@ -176,6 +176,6 @@ end
 
 options(8) = -sum(log(gmmprob(mix, x)));
 if (display >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded');
+  disp(maxitmess);
 end
   

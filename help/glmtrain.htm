@@ -23,7 +23,15 @@ and <CODE>glmgrad</CODE> and a non-linear optimisation routine through
 <CODE>netopt</CODE>.
 Note that for linear outputs, a single pass through the 
 algorithm is all that is required, since the error function is quadratic in
-the weights.  The error function value at the final set of weights is returned
+the weights.  The algorithm also handles scalar <CODE>alpha</CODE> and <CODE>beta</CODE>
+terms.  If you want to use more complicated priors, you should use
+general-purpose non-linear optimisation algorithms.
+
+<p>For logistic and softmax outputs, general priors can be handled, although
+this requires the pseudo-inverse of the Hessian, giving up the better
+conditioning and some of the speed advantage of the normal form equations.
+
+<p>The error function value at the final set of weights is returned
 in <CODE>options(8)</CODE>.
 Each row of <CODE>x</CODE> corresponds to one
 input vector and each row of <CODE>t</CODE> corresponds to one target vector.

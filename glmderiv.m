@@ -20,7 +20,7 @@ end
 ndata = size(x, 1);
 if isfield(net, 'mask')
   nwts = size(find(net.mask), 1);
-  temp = zeros(1, net.nwts);
+  mask_array = logical(net.mask)*ones(1, net.nout);
 else
   nwts = net.nwts;
 end
@@ -33,7 +33,7 @@ for n = 1:ndata
     % Bias term b1
     temp(net.nin*net.nout+1:end, :) = eye(net.nout);
     if isfield(net, 'mask')
-	g(n, :, :) = temp(logical(net.mask));
+	g(n, :, :) = reshape(temp(find(mask_array)), nwts, net.nout);
     else
 	g(n, :, :) = temp;
     end

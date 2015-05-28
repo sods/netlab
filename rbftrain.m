@@ -111,7 +111,7 @@ case 'linear'
     temp = pinv(Phi)*t;
   elseif size(net.alpha == [1 1])
     % Use normal form equation
-    hessian = Phi'*Phi + net.alpha*eye(net.nin+1);
+    hessian = Phi'*Phi + net.alpha*eye(net.nhidden+1);
     temp = pinv(hessian)*(Phi'*t);  
   else
     error('Only scalar alpha allowed');

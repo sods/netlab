@@ -8,9 +8,18 @@ function [net, options] = glmtrain(net, options, x, t)
 %	using GLMERR and GLMGRAD and a non-linear optimisation routine
 %	through NETOPT. Note that for linear outputs, a single pass through
 %	the  algorithm is all that is required, since the error function is
-%	quadratic in the weights.  The error function value at the final set
-%	of weights is returned in OPTIONS(8). Each row of X corresponds to
-%	one input vector and each row of T corresponds to one target vector.
+%	quadratic in the weights.  The algorithm also handles scalar ALPHA
+%	and BETA terms.  If you want to use more complicated priors, you
+%	should use general-purpose non-linear optimisation algorithms.
+%
+%	For logistic and softmax outputs, general priors can be handled,
+%	although this requires the pseudo-inverse of the Hessian, giving up
+%	the better conditioning and some of the speed advantage of the normal
+%	form equations.
+%
+%	The error function value at the final set of weights is returned in
+%	OPTIONS(8). Each row of X corresponds to one input vector and each
+%	row of T corresponds to one target vector.
 %
 %	The optional parameters have the following interpretations.
 %
@@ -63,9 +72,14 @@ if strcmp(net.outfn, 'linear')
     % Solve for the weights and biases using left matrix divide
     temp = inputs\t;
   elseif size(net.alpha == [1 1])
+    if isfield(net, 'beta')
+      beta = net.beta;
+    else
+      beta = 1.0;
+    end
     % Use normal form equation
-    hessian = inputs'*inputs + net.alpha*eye(net.nin+1);
-    temp = pinv(hessian)*(inputs'*t);  
+    hessian = beta*(inputs'*inputs) + net.alpha*eye(net.nin+1);
+    temp = pinv(hessian)*(beta*(inputs'*t));  
   else
     error('Only scalar alpha allowed');
   end
@@ -86,6 +100,7 @@ for n = 1:options(14)
         % Initialise model
         p = (t+0.5)/2;
 	act = log(p./(1-p));
+        wold = glmpak(net);
       end
       link_deriv = p.*(1-p);
       weights = sqrt(link_deriv); % sqrt of weights
@@ -94,13 +109,21 @@ for n = 1:options(14)
         return
       end
       z = act + (t-p)./link_deriv;
-      % Treat each output independently with relevant set of weights
-      for j = 1:net.nout
-	indep = inputs.*(weights(:,j)*e);
-	dep = z(:,j).*weights(:,j);
-	temp = indep\dep;
-	net.w1(:,j) = temp(1:net.nin);
-	net.b1(j) = temp(net.nin+1);
+      if ~isfield(net, 'alpha')
+         % Treat each output independently with relevant set of weights
+         for j = 1:net.nout
+	    indep = inputs.*(weights(:,j)*e);
+	    dep = z(:,j).*weights(:,j);
+	    temp = indep\dep;
+	    net.w1(:,j) = temp(1:net.nin);
+	    net.b1(j) = temp(net.nin+1);
+         end
+      else
+	 gradient = glmgrad(net, x, t);
+         Hessian = glmhess(net, x, t);
+         deltaw = -gradient*pinv(Hessian);
+         w = wold + deltaw;
+         net = glmunpak(net, w);
       end
       [err, edata, eprior, p, act] = glmerr(net, x, t);
       if n == 1
@@ -143,10 +166,7 @@ for n = 1:options(14)
 	% Exact method of calculation after w first initialised
 	% Start by working out Hessian
 	Hessian = glmhess(net, x, t);
-	temp = p-t;
-	gw1 = x'*(temp);
-	gb1 = sum(temp, 1);
-	gradient = [gw1(:)', gb1];
+	gradient = glmgrad(net, x, t);
 	% Now compute modification to weights
 	deltaw = -gradient*pinv(Hessian);
 	w = wold + deltaw;
@@ -182,5 +202,5 @@ end
 
 options(8) = err;
 if (options(1) >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded');
+  disp(maxitmess);
 end

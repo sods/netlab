@@ -130,7 +130,7 @@ for n = 1:niters
       br_max = x;
     end
     v = w; w = x; x = u;
-    fv = fw; fw = fv; fx = fu;
+    fv = fw; fw = fx; fx = fu;
   else
     if (u < x)
       br_min = u;   

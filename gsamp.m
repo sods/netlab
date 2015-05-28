@@ -20,6 +20,13 @@ mu = reshape(mu, 1, d);   % Ensure that mu is a row vector
 
 [evec, eval] = eig(covar);
 
+deig=diag(eval);
+
+if (~isreal(deig)) | any(deig<0), 
+  warning('Covariance Matrix is not OK, redefined to be positive definite');
+  eval=abs(eval);
+end
+
 coeffs = randn(nsamp, d)*sqrt(eval);
 
 x = ones(nsamp, 1)*mu + coeffs*evec';

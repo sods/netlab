@@ -120,7 +120,7 @@ j = 1;
 if nargout >= 3
   errlog(j, :) = fnew;
   if nargout == 4
-    pointlog(j, :) = x;
+    pointlog(j, :) = w;
   end
 end
 
@@ -175,7 +175,7 @@ else
   options(10) = options(10) + 1;
 end
 if (options(1) >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded in olgd');
+  disp(maxitmess);
 end
 
 net = feval(unpakstr, net, w);

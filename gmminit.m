@@ -70,7 +70,7 @@ case 'spherical'
       mix.covars(:,:,j) = (diffs'*diffs)/(size(c, 1));
       % Add GMM_WIDTH*Identity to rank-deficient covariance matrices
       if rank(mix.covars(:,:,j)) < mix.nin
-	mix.covars(:,:,j) = mix.covars(:,:,i) + GMM_WIDTH.*eye(mix.nin);
+	mix.covars(:,:,j) = mix.covars(:,:,j) + GMM_WIDTH.*eye(mix.nin);
       end
     end
   case 'ppca'

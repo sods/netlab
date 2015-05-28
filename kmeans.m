@@ -119,6 +119,6 @@ end
 % iterations.
 options(8) = e;
 if (options(1) >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded');
+  disp(maxitmess);
 end
 

@@ -26,6 +26,11 @@ a = gmmactiv(mix, x);
 
 post = (ones(ndata, 1)*mix.priors).*a;
 s = sum(post, 2);
-% Set any zeros to one before dividing
-s = s + (s==0);
+if any(s==0)
+   warning('Some zero posterior probabilities')
+   % Set any zeros to one before dividing
+   zero_rows = find(s==0);
+   s = s + (s==0);
+   post(zero_rows, :) = 1/mix.ncentres;
+end
 post = post./(s*ones(1, mix.ncentres));

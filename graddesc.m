@@ -176,5 +176,5 @@ else
   options(10) = options(10) + 1;
 end
 if (options(1) >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded in graddesc');
+  disp(maxitmess);
 end

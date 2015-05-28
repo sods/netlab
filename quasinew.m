@@ -172,5 +172,5 @@ end
 
 options(8) = fold;
 if (options(1) >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded in quasinew');
+  disp(maxitmess);
 end

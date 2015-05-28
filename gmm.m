@@ -36,8 +36,8 @@ function mix = gmm(dim, ncentres, covar_type, ppca_dim)
 %	 The off-subspace noise is stored in COVARS.
 %
 %	See also
-%	GMMPAK, GMMUNPAK, GMMSAMP, GMMINIT, GMMEM, GMACTIV, GMPOST, 
-%	GMPROB
+%	GMMPAK, GMMUNPAK, GMMSAMP, GMMINIT, GMMEM, GMMACTIV, GMMPOST, 
+%	GMMPROB
 %
 
 %	Copyright (c) Ian T Nabney (1996-2001)

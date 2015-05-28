@@ -40,7 +40,7 @@ if isfield(net, 'pr_mean')
   else
     wpr = repmat(w, size(net.pr_mean, 1), 1)';
     eprior = 0.5*(((wpr - m').^2).*net.index);
-    e2 = (sum(e2, 1))*(1./net.pr_var);
+    e2 = (sum(eprior, 1))*(1./net.pr_var);
   end
 else
   e2 = 0;

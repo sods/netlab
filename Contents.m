@@ -1,10 +1,11 @@
 % Netlab Toolbox
-% Version 3.2.1 	 31-Oct-2001
+% Version 3.3.1 	 18-Jun-2004
 %
 % conffig  -  Display a confusion matrix. 
 % confmat  -  Compute a confusion matrix. 
 % conjgrad -  Conjugate gradients optimization. 
 % consist  -  Check that arguments are consistent. 
+% convertoldnet-  Convert pre-2.3 release MLP and MDN nets to new format 
 % datread  -  Read data from an ascii file. 
 % datwrite -  Write data to ascii file. 
 % dem2ddat -  Generates two dimensional data for demos. 
@@ -104,6 +105,7 @@
 % knnfwd   -  Forward propagation through a K-nearest-neighbour classifier. 
 % linef    -  Calculate function value along a line. 
 % linemin  -  One dimensional minimization. 
+% maxitmess-  Create a standard error message when training reaches max. iterations. 
 % mdn      -  Creates a Mixture Density Network with specified architecture. 
 % mdn2gmm  -  Converts an MDN mixture data structure to array of GMMs. 
 % mdndist2 -  Calculates squared distance between centres of Gaussian kernels and data 

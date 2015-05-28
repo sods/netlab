@@ -31,38 +31,6 @@ function [net, options, errlog] = gtmem(net, t, options)
 
 %	Copyright (c) Ian T Nabney (1996-2001)
 
-%GTMEM	EM algorithm for Generative Topographic Mapping.
-%
-%	Description
-%	[NET, OPTIONS, ERRLOG] = GTMEM(NET, T, OPTIONS) uses the Expectation
-%	Maximization algorithm to estimate the parameters of a GTM defined by
-%	a data structure NET. The matrix T represents the data whose
-%	expectation is maximized, with each row corresponding to a vector.
-%	It is assumed that the latent data NET.X has been set following a
-%	call to GTMINIT, for example.    The optional parameters have the
-%	following interpretations.
-%
-%	OPTIONS(1) is set to 1 to display error values; also logs error
-%	values in the return argument ERRLOG. If OPTIONS(1) is set to 0, then
-%	only warning messages are displayed.  If OPTIONS(1) is -1, then
-%	nothing is displayed.
-%
-%	OPTIONS(3) is a measure of the absolute precision required of the
-%	error function at the solution. If the change in log likelihood
-%	between two steps of the EM algorithm is less than this value, then
-%	the function terminates.
-%
-%	OPTIONS(14) is the maximum number of iterations; default 100.
-%
-%	The optional return value OPTIONS contains the final error value
-%	(i.e. data log likelihood) in OPTIONS(8).
-%
-%	See also
-%	GTM, GTMINIT
-%
-
-%	Copyright (c) Ian T Nabney (1996-9)
-
 % Check that inputs are consistent
 errstring = consist(net, 'gtm', t);
 if ~isempty(errstring)
@@ -163,5 +131,5 @@ end
 
 options(8) = -sum(log(gtmprob(net, t)));
 if (display >= 0)
-  disp('Warning: Maximum number of iterations has been exceeded');
+  disp(maxitmess);
 end
